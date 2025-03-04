@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            font-size: 18px;
+        }
+
+        .title, .section-title, .logo {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .title {
+            font-size: 6vw;
+            font-weight: 700;
+            text-transform: none;
+            letter-spacing: 0.1em;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .subtitle {
+            font-size: 2vw;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .section-title {
+            font-size: 4vw;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0.05em;
+        }
+        display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            position: relative;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: #fff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .title {
+            font-size: 5vw;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .subtitle {
+            font-size: 1.5vw;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .section {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: 8rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 3vw;
+            font-weight: 700;
+            margin-bottom: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 4px;
+            background-color: #111;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-title {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .about-content {
+            max-width: 800px;
+            line-height: 1.8;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            font-family: 'Playfair Display', serif;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: #fff;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: rgba(255, 255, 255, 0.5);
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            position: relative;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: #fff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .title {
+            font-size: 5vw;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .subtitle {
+            font-size: 1.5vw;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .section {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: 8rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 3vw;
+            font-weight: 700;
+            margin-bottom: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 4px;
+            background-color: #111;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-title {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .about-content {
+            max-width: 800px;
+            line-height: 1.8;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            color: #fff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="webgl"></canvas>
+    
+    <header class="header">
+        <div class="logo">Portfolio</div>
+        <nav class="nav">
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1 class="title">Creative Developer</h1>
+        <p class="subtitle">Interactive Experiences & Digital Solutions</p>
+    </section>
+
+    <section id="projects" class="section">
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3 class="project-title">Project One</h3>
+            </div>
+            <div class="project-card">
+                <h3 class="project-title">Project Two</h3>
+            </div>
+            <div class="project-card">
+                <h3 class="project-title">Project Three</h3>
+            </div>
+            <div class="project-card">
+                <h3 class="project-title">Project Four</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <h2 class="section-title">About</h2>
+        <div class="about-content">
+            <p>I'm a creative developer specializing in interactive web experiences and digital solutions. With a passion for blending design and technology, I create immersive digital experiences that engage and inspire.</p>
+            <br>
+            <p>My expertise includes 3D web development, interactive animations, and creating unique user experiences that push the boundaries of what's possible on the web.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <h2 class="section-title">Get in Touch</h2>
+        <form class="contact-form">
+            <div class="form-group">
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" id="name" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="message" class="form-label">Your Message</label>
+                <textarea id="message" class="form-input form-textarea" required></textarea>
+            </div>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+    </section>
+
+    <footer class="footer">
+        <div>© 2023 Creative Portfolio</div>
+        <div class="social-links">
+            <a href="#" class="social-link">Twitter</a>
+            <a href="#" class="social-link">LinkedIn</a>
+            <a href="#" class="social-link">GitHub</a>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
