@@ -4,256 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@200;300;400&family=Cormorant+Garamond:wght@300;400&family=Italiana&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* 重置所有元素的默认样式 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        body {
-            font-family: 'Cormorant Garamond', serif;
-            background-color: #000;
+        /* 固定顶部导航栏，带有毛玻璃效果 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0);
+        }
+        .nav {
+            display: flex;
+            gap: 3rem;
+        }
+        .nav-link {
             color: #fff;
-            overflow-x: hidden;
-            font-size: 18px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            position: relative;
+            opacity: 0.7;
+            transition: all 0.4s ease;
         }
-
-        .title, .section-title, .logo {
-            font-family: 'Playfair Display', serif;
+        .nav-link:hover {
+            opacity: 1;
+            transform: translateY(-2px);
         }
-
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #fff;
+            transition: width 0.4s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .hero {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 90%;
+            padding: 2rem;
+            mix-blend-mode: difference;
+        }
+        #webgl {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
         .title {
-            font-size: 6vw;
-            font-weight: 700;
-            text-transform: none;
-            letter-spacing: 0.1em;
-            line-height: 1.2;
-            margin-bottom: 2rem;
-        }
-
-        .subtitle {
-            font-size: 2vw;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 5vw;
             font-weight: 300;
-            letter-spacing: 0.05em;
-        }
-
-        .section-title {
-            font-size: 4vw;
-            font-weight: 400;
-            text-transform: none;
-            letter-spacing: 0.05em;
-        }
-        display: flex;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1rem;
-            position: relative;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-
-        .nav-link:hover {
-            opacity: 1;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: #fff;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .hero {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .title {
-            font-size: 5vw;
-            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-bottom: 1rem;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .subtitle {
-            font-size: 1.5vw;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .section {
-            position: relative;
-            z-index: 2;
-            min-height: 100vh;
-            padding: 8rem 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .section-title {
-            font-size: 3vw;
-            font-weight: 700;
-            margin-bottom: 4rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            position: relative;
-            aspect-ratio: 16/9;
-            overflow: hidden;
-            border-radius: 4px;
-            background-color: #111;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .project-title {
-            position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .about-content {
-            max-width: 800px;
-            line-height: 1.8;
-        }
-
-        .contact-form {
-            max-width: 600px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
-        }
-
-        .form-group {
+            letter-spacing: 0.4em;
             margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            color: rgba(255, 255, 255, 1);
+            text-shadow: none;
+            line-height: 1.4;
         }
-
-        .form-label {
-            font-family: 'Playfair Display', serif;
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            color: #fff;
+        .subtitle {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus {
-            border-color: rgba(255, 255, 255, 0.5);
-            outline: none;
-            background-color: rgba(255, 255, 255, 0.15);
-        }
-        display: flex;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1rem;
-            position: relative;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-
-        .nav-link:hover {
-            opacity: 1;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: #fff;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .hero {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .title {
-            font-size: 5vw;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-bottom: 1rem;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .subtitle {
             font-size: 1.5vw;
+            font-weight: 300;
+            letter-spacing: 0.2em;
             opacity: 0;
             transform: translateY(20px);
+            color: rgba(255, 255, 255, 1);
+            text-transform: none;
+            line-height: 1.6;
         }
-
+        /* 页面主要内容区域的通用样式 */
         .section {
             position: relative;
             z-index: 2;
@@ -263,7 +115,6 @@
             flex-direction: column;
             justify-content: center;
         }
-
         .section-title {
             font-size: 3vw;
             font-weight: 700;
@@ -271,115 +122,172 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
-
+        /* 项目展示卡片网格布局 */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
         }
+    .project-card {
+        position: relative;
+        width: 110%;
+        max-width: 1320px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 2.2rem;
+        padding: 2.2rem;
+        border-radius: 13.2px;
+        background-color: rgba(40, 44, 52, 0.75);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 11px 33px rgba(0, 0, 0, 0.2);
+    }
 
-        .project-card {
-            position: relative;
-            aspect-ratio: 16/9;
-            overflow: hidden;
-            border-radius: 4px;
-            background-color: #111;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .project-title {
-            position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .about-content {
-            max-width: 800px;
-            line-height: 1.8;
-        }
-
-        .contact-form {
-            max-width: 600px;
-            width: 100%;
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            font-family: inherit;
-            font-size: 1rem;
-        }
-
-        .form-textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            background-color: #fff;
-            color: #000;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-
-        .footer {
-            position: relative;
-            z-index: 2;
-            padding: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-link {
-            color: #fff;
-            text-decoration: none;
-        }
-    </style>
+    .project-image {
+        width: 50%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.5s ease;
+    }
+    .project-content {
+        flex: 1;
+        color: white;
+        padding: 1rem;
+    }
+    .project-title {
+        font-size: 2.2rem;
+        font-weight: 600;
+        margin-bottom: 1.1rem;
+        font-family: 'Playfair Display', serif;
+        position: relative;
+        color: #ffffff;
+    }
+    .project-description {
+        font-size: 1.21rem;
+        line-height: 1.76;
+        color: rgba(255, 255, 255, 0.8);
+        font-family: 'Cormorant Garamond', serif;
+    }
+    .project-card:hover .project-title {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .project-card:hover .project-image {
+        transform: scale(1.1);
+    }
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 3rem;
+        padding: 2rem;
+    }
+    .project-card:hover {
+        transform: translateY(-10px);
+    }
+    .project-title {
+        position: relative;
+        margin-bottom: 1.1rem;
+        font-size: 1.32rem;
+        font-weight: 600;
+        color: #ffffff;
+    }
+    .about-content {
+        max-width: 800px;
+        line-height: 1.8;
+    }
+    /* 联系表单样式 */
+    .contact-form {
+        max-width: 600px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+    }
+    .form-group {
+        margin-bottom: 2rem;
+    }
+    .form-label {
+        font-family: 'Playfair Display', serif;
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+    .form-input {
+        width: 100%;
+        padding: 1rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        color: #fff;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+    .form-input:focus {
+        border-color: rgba(255, 255, 255, 0.5);
+        outline: none;
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+    .form-textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+    .btn {
+        padding: 1rem 2rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+    }
+    /* 页脚样式 */
+    .footer {
+        position: relative;
+        z-index: 2;
+        padding: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        font-size: 0.9rem;
+    }
+    .social-links {
+        display: flex;
+        gap: 1.5rem;
+    }
+    .social-link {
+        color: #fff;
+        text-decoration: none;
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
+    .social-link:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+    }
+</style>
 </head>
 <body>
+    <div class="header-content">
+        <h1 class="title">Creative Developer</h1>
+        <p class="subtitle">Interactive Experiences & Digital Solutions</p>
+    </div>
     <canvas id="webgl"></canvas>
     
     <header class="header">
-        <div class="logo">Portfolio</div>
         <nav class="nav">
             <a href="#projects" class="nav-link">Projects</a>
             <a href="#about" class="nav-link">About</a>
@@ -387,25 +295,32 @@
         </nav>
     </header>
 
-    <section class="hero">
-        <h1 class="title">Creative Developer</h1>
-        <p class="subtitle">Interactive Experiences & Digital Solutions</p>
-    </section>
-
     <section id="projects" class="section">
         <h2 class="section-title">Projects</h2>
         <div class="projects-grid">
             <div class="project-card">
-                <h3 class="project-title">Project One</h3>
+                <div class="project-content">
+                    <h3 class="project-title">Project One</h3>
+                    <p class="project-description">一个创新的交互式网站设计，结合了3D动画和响应式布局，为用户提供沉浸式体验。该项目使用了Three.js和GSAP动画库，展示了现代网页设计的前沿技术。</p>
+                </div>
             </div>
             <div class="project-card">
-                <h3 class="project-title">Project Two</h3>
+                <div class="project-content">
+                    <h3 class="project-title">Project Two</h3>
+                    <p class="project-description">移动应用程序界面设计，专注于用户体验和直观操作。采用了最新的设计趋势和交互模式，确保用户可以轻松导航和使用所有功能。</p>
+                </div>
             </div>
             <div class="project-card">
-                <h3 class="project-title">Project Three</h3>
+                <div class="project-content">
+                    <h3 class="project-title">Project Three</h3>
+                    <p class="project-description">电子商务平台的视觉重新设计，包括品牌标识、用户界面和整体用户体验的改进。该项目显著提高了转化率和用户满意度。</p>
+                </div>
             </div>
             <div class="project-card">
-                <h3 class="project-title">Project Four</h3>
+                <div class="project-content">
+                    <h3 class="project-title">Project Four</h3>
+                    <p class="project-description">数据可视化仪表板，将复杂的数据转化为易于理解的图表和图形。该项目使用了D3.js和现代前端框架，为用户提供了强大而直观的数据分析工具。</p>
+                </div>
             </div>
         </div>
     </section>
