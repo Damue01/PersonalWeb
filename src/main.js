@@ -252,195 +252,50 @@ class Experience {
         }
     }
     setupScrollAnimations() {
-        // Set up scroll trigger for sections
-        const sections = document.querySelectorAll('.section');
-        
-        // 监听滚动事件，控制动态线条的显示/隐藏
-        lenis.on('scroll', (e) => {
-            const heroSection = document.querySelector('.header-content');
-            if (heroSection) {
-                const heroRect = heroSection.getBoundingClientRect();
-                // 当首页不在视口内时，隐藏线条
-                if (this.lines) {
-                    if (heroRect.bottom <= 0) {
-                        gsap.to(this.lines.children, {
-                            opacity: 0,
-                            duration: 0.3,
-                            stagger: 0.05
-                        });
-                    } else if (heroRect.top < window.innerHeight) {
-                        gsap.to(this.lines.children, {
-                            opacity: 0.7,
-                            duration: 0.3,
-                            stagger: 0.05
-                        });
-                    }
-                }
-            }
-        });
-        
-        sections.forEach((section) => {
-            lenis.on('scroll', (e) => {
-                const rect = section.getBoundingClientRect();
-                
-                if (rect.top < window.innerHeight * 0.8 && rect.bottom > 0) {
-                    section.classList.add('visible');
-                }
-            });
-        });
-        
-        // 设置项目卡片的滚动触发动画
+        // 设置项目卡片基础样式
         const projectCards = document.querySelectorAll('.project-card');
-        const projectsTitle = document.querySelector('#projects .section-title');
-        const projectsSection = document.getElementById('projects');
-        
-        // 隐藏项目标题
-        gsap.set(projectsTitle, { opacity: 0, display: 'none' });
-        
-        // 重新排列项目卡片布局，创建艺术感的交错布局
         const projectsGrid = document.querySelector('.projects-grid');
+        
+        // 设置容器样式
         if (projectsGrid) {
             projectsGrid.style.display = 'flex';
             projectsGrid.style.flexDirection = 'column';
-            projectsGrid.style.alignItems = 'center';
+            projectsGrid.style.flexWrap = 'wrap';
+            // projectsGrid.style.justifyContent = 'space-between';
             projectsGrid.style.gap = '6rem';
-            projectsGrid.style.padding = '4rem 0';
+            projectsGrid.style.padding = '4rem 2rem';
+            // projectsGrid.style.maxWidth = '1200px';
+            projectsGrid.style.margin = '0 auto';
         }
         
+        // 初始化卡片样式
         projectCards.forEach((card, index) => {
-            // 添加图片到卡片中
+            // 添加项目图片
             const img = document.createElement('img');
             img.src = `/assets/project-${index + 1}.jpg`;
             img.alt = card.querySelector('.project-title').textContent;
             img.classList.add('project-image');
             
-            // 确保图片在内容之前，避免重叠
+            // 插入图片到内容区域前
             const content = card.querySelector('.project-content');
             card.insertBefore(img, content);
             
-            // 设置卡片的宽度和位置，实现左右交错效果
-            card.style.width = '70%';
-            
-            // 奇数卡片靠左，偶数卡片靠右
+            // 设置卡片基础样式
+            card.style.width = '95%';
+            card.style.margin = '2rem 0';
+            card.style.transformOrigin = 'bottom center';
+            // 设置左右交替排列
             if (index % 2 === 0) {
+                card.style.transform = 'rotate(-2deg)';
                 card.style.alignSelf = 'flex-start';
-                card.style.marginLeft = '10%';
             } else {
+                card.style.transform = 'rotate(2deg)'; 
                 card.style.alignSelf = 'flex-end';
-                card.style.marginRight = '10%';
             }
-            // 初始化卡片状态 - 根据左右位置设置不同的初始状态
-            gsap.set(card, {
-                x: index % 2 === 0 ? -100 : 100, // 左右两侧
-                opacity: 0,
-                scale: 0.8
-            });
-            // 创建防抖动画方法
-            const debouncedAnimate = this.debounce((shouldShow, onComplete) => {
-                card.animating = true;
-                const animation = shouldShow ? 
-                    gsap.to(card, {
-                        x: 0,
-                        opacity: 1,
-                        scale: 1,
-                        duration: 1.2,
-                        delay: index * 0.2,
-                        ease: 'power3.out',
-                        onComplete: () => {
-                            card.animating = false;
-                            onComplete?.();
-                        }
-                    }) :
-                    gsap.to(card, {
-                        x: index % 2 === 0 ? -100 : 100,
-                        opacity: 0,
-                        scale: 0.8,
-                        duration: 0.8,
-                        ease: 'power3.inOut',
-                        onComplete: () => {
-                            card.animating = false;
-                            onComplete?.();
-                        }
-                    });
-            }, 50);
-
-            // 创建滚动触发器
-            lenis.on('scroll', (e) => {
-                if (card.animating) return; // 防止动画冲突
-                const rect = card.getBoundingClientRect();
-                // 修改触发条件，使卡片在滚动到更明确的位置时显示
-                // 当卡片进入视口的20%位置时才开始显示
-                // 计算中间区域范围（视口高度的中间1/3区域）
-                const middleSectionStart = window.innerHeight / 3;
-                const middleSectionEnd = window.innerHeight * 2 / 3;
-                
-                // 卡片顶部和底部在中间区域的位置
-                const cardTopInMiddle = rect.top <= middleSectionEnd && rect.top >= middleSectionStart;
-                const cardBottomInMiddle = rect.bottom <= middleSectionEnd && rect.bottom >= middleSectionStart;
-                const cardCoversMiddle = rect.top <= middleSectionStart && rect.bottom >= middleSectionEnd;
-                
-                // 判断卡片是否与中间区域有交集
-                const isInMiddleZone = cardTopInMiddle || cardBottomInMiddle || cardCoversMiddle;
-                
-                // 当卡片进入中间区域时显示
-                if (isInMiddleZone) {
-                    gsap.to(card, {
-                        x: 0,
-                        opacity: 1,
-                        scale: 1,
-                        duration: 1.2,
-                        delay: index * 0.2, // 减少延迟时间，使动画更流畅
-                        ease: 'power3.out' // 使用更平滑的缓动函数
-                    });
-                } else {
-                    gsap.to(card, {
-                        x: index % 2 === 0 ? -100 : 100,
-                        opacity: 0,
-                        scale: 0.8,
-                        duration: 0.8,
-                        ease: 'power3.inOut'
-                    });
-                }
-            });
             
-            // 添加悬停效果
-            card.addEventListener('mouseenter', () => {
-                gsap.to(card, {
-                    scale: 1.05,
-                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-                    duration: 0.5,
-                    ease: 'power2.out'
-                });
-                
-                // 添加标题上移效果
-                const title = card.querySelector('.project-title');
-                if (title) {
-                    gsap.to(title, {
-                        y: -10,
-                        duration: 0.5,
-                        ease: 'power2.out'
-                    });
-                }
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                gsap.to(card, {
-                    scale: 1,
-                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
-                    duration: 0.5,
-                    ease: 'power2.out'
-                });
-                
-                // 标题恢复原位
-                const title = card.querySelector('.project-title');
-                if (title) {
-                    gsap.to(title, {
-                        y: 0,
-                        duration: 0.5,
-                        ease: 'power2.out'
-                    });
-                }
-            });
+            // 设置动态颜色
+            const hue = index * 30 % 360;
+            card.style.backgroundColor = `hsl(${hue}, 80%, 90%)`;
         });
     }
     onResize() {

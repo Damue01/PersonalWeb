@@ -115,12 +115,17 @@
             flex-direction: column;
             justify-content: center;
         }
-        .section-title {
-            font-size: 3vw;
-            font-weight: 700;
-            margin-bottom: 4rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+    .section-title {
+        font-size: 3.5vw;
+        font-weight: 700;
+        margin-bottom: 4rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        background: linear-gradient(45deg, #ff9a9e, #a18cd1);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: all 0.3s ease;
         }
         /* 项目展示卡片网格布局 */
         .projects-grid {
@@ -128,6 +133,56 @@
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
         }
+    .projects-header {
+        position: relative;
+        margin-bottom: 8rem;
+        text-align: center;
+    }
+    .sticky-subtitle {
+        position: fixed;
+        top: 100vh; /* 定位在首屏底部 */
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 5vw;
+        font-family: 'Syncopate', sans-serif;
+        background: linear-gradient(45deg, #ff6b6b 20%, #4ecdc4 50%, #45b7d1 80%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 0;
+        padding: 2rem 4rem;
+        border-radius: 2rem;
+        backdrop-filter: blur(20px);
+        transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        z-index: 1000;
+        white-space: nowrap;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .projects-header {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-bottom: 10vh;
+    }
+    .sticky-subtitle {
+        position: absolute;
+        top: 100vh; /* 定位到首屏底部 */
+        left: 0;
+        width: 100%;
+        font-size: 4vw;
+        font-family: 'Syncopate', sans-serif;
+        text-align: center;
+        padding: 2rem 0;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        z-index: 1000;
+    }
     .project-card {
         position: relative;
         width: 110%;
@@ -138,7 +193,8 @@
         gap: 2.2rem;
         padding: 2.2rem;
         border-radius: 13.2px;
-        background-color: rgba(40, 44, 52, 0.75);
+        background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a18cd1);
+        backdrop-filter: blur(20px) brightness(1.1);
         cursor: pointer;
         transition: all 0.3s ease;
         box-shadow: 0 11px 33px rgba(0, 0, 0, 0.2);
@@ -175,7 +231,7 @@
         transform: translateY(0);
     }
     .project-card:hover .project-image {
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
     .projects-grid {
         display: grid;
@@ -197,61 +253,7 @@
         max-width: 800px;
         line-height: 1.8;
     }
-    /* 联系表单样式 */
-    .contact-form {
-        max-width: 600px;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.05);
-        padding: 2rem;
-        border-radius: 8px;
-        backdrop-filter: blur(10px);
-    }
-    .form-group {
-        margin-bottom: 2rem;
-    }
-    .form-label {
-        font-family: 'Playfair Display', serif;
-        display: block;
-        margin-bottom: 0.5rem;
-        font-size: 1.1rem;
-        opacity: 0.9;
-    }
-    .form-input {
-        width: 100%;
-        padding: 1rem;
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 4px;
-        color: #fff;
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-    }
-    .form-input:focus {
-        border-color: rgba(255, 255, 255, 0.5);
-        outline: none;
-        background-color: rgba(255, 255, 255, 0.15);
-    }
-    .form-textarea {
-        min-height: 150px;
-        resize: vertical;
-    }
-    .btn {
-        padding: 1rem 2rem;
-        background-color: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 4px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .btn:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-        border-color: rgba(255, 255, 255, 0.3);
-        transform: translateY(-2px);
-    }
+
     /* 页脚样式 */
     .footer {
         position: relative;
@@ -274,6 +276,70 @@
         opacity: 0.7;
         transition: all 0.3s ease;
     }
+
+    /* Modern contact section styles */
+    .contact-info {
+        font-size: 1.8rem;
+        text-align: center;
+        margin: 2rem 0;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-info a {
+        display: inline-block;
+        font-family: 'Syncopate', sans-serif;
+        font-weight: 400;
+        background: linear-gradient(45deg, #a18cd1, #ff9a9e);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: transform 0.3s ease;
+    }
+
+    .contact-info a:hover {
+        transform: translateY(-2px) scale(1.05);
+    }
+
+    .about-content {
+        max-width: 800px;
+        font-size: 1.6rem;
+        line-height: 1.8;
+        padding: 3rem;
+        background: linear-gradient(145deg, rgba(255,154,158,0.1) 0%, rgba(161,140,209,0.15) 100%);
+        backdrop-filter: blur(12px);
+        border-radius: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform-style: preserve-3d;
+        perspective: 1000px;
+    }
+
+    .about-content p {
+        margin-bottom: 2rem;
+        position: relative;
+        padding-left: 2rem;
+        font-family: 'Cormorant Garamond', serif;
+    }
+
+    .about-content p::before {
+        content: "▹";
+        position: absolute;
+        left: 0;
+        color: #ff9a9e;
+        font-size: 1.2em;
+        top: 0;
+    }
+
+    .about-content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 45px rgba(0,0,0,0.2);
+    }
     .social-link:hover {
         opacity: 1;
         transform: translateY(-2px);
@@ -281,14 +347,17 @@
 </style>
 </head>
 <body>
-    <div class="header-content">
-        <h1 class="title">Creative Developer</h1>
-        <p class="subtitle">Interactive Experiences & Digital Solutions</p>
-    </div>
-    <canvas id="webgl"></canvas>
+    <section id="home" class="section">
+        <div class="header-content">
+            <h1 class="title">Creative Developer</h1>
+            <p class="subtitle">Interactive Experiences & Digital Solutions</p>
+        </div>
+        <canvas id="webgl"></canvas>
+    </section>
     
     <header class="header">
         <nav class="nav">
+            <a href="#home" class="nav-link">Home</a>
             <a href="#projects" class="nav-link">Projects</a>
             <a href="#about" class="nav-link">About</a>
             <a href="#contact" class="nav-link">Contact</a>
@@ -296,12 +365,12 @@
     </header>
 
     <section id="projects" class="section">
-        <h2 class="section-title">Projects</h2>
+        <h2 class="section-title">Project Show</h2>
         <div class="projects-grid">
             <div class="project-card">
                 <div class="project-content">
                     <h3 class="project-title">Project One</h3>
-                    <p class="project-description">一个创新的交互式网站设计，结合了3D动画和响应式布局，为用户提供沉浸式体验。该项目使用了Three.js和GSAP动画库，展示了现代网页设计的前沿技术。</p>
+                    <p class="project-description">一个创新式AI Girl，可以与你在3D空间内互动。</p>
                 </div>
             </div>
             <div class="project-card">
@@ -336,17 +405,9 @@
 
     <section id="contact" class="section">
         <h2 class="section-title">Get in Touch</h2>
-        <form class="contact-form">
-            <div class="form-group">
-                <label for="name" class="form-label">Your Name</label>
-                <input type="text" id="name" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="message" class="form-label">Your Message</label>
-                <textarea id="message" class="form-input form-textarea" required></textarea>
-            </div>
-            <button type="submit" class="btn">Send Message</button>
-        </form>
+    <div class="contact-info">
+        GitHub: <a href="https://github.com/Damue01" class="social-link">Damue01</a>
+    </div>
     </section>
 
     <footer class="footer">
