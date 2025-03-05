@@ -20,9 +20,37 @@ function raf(time) {
 // 启动动画循环
 requestAnimationFrame(raf);
 
-// 初始化Three.js场景
+/**
+ * 主场景类 - 管理整个3D场景的生命周期
+ * @class Experience
+ * @property {THREE.Scene} scene - Three.js场景对象
+ * @property {THREE.PerspectiveCamera} camera - 透视相机
+ * @property {THREE.WebGLRenderer} renderer - WebGL渲染器
+ * @property {THREE.Group} lines - 装饰线条的组对象
+ * @property {number} lineCount - 当前场景中装饰线条的数量
+ * 
+ * 主要功能模块：
+ * 1. 场景初始化（相机、渲染器、灯光、背景、装饰线条）
+ * 2. 事件监听（窗口调整、鼠标移动）
+ * 3. 动画系统（GSAP动画、生命周期管理）
+ * 4. 滚动动画控制
+ * 5. 渲染循环管理
+ * 
+ * 相关模块：
+ * - Lenis 平滑滚动库
+ * - GSAP 动画库
+ */
 class Experience {
-    // 添加防抖函数
+    /**
+     * 防抖函数 - 用于优化高频事件处理
+     * @param {Function} func - 需要防抖的函数
+     * @param {number} wait - 等待时间(毫秒)
+     * @returns {Function} 防抖处理后的函数
+     * 
+     * 使用场景：
+     * - 窗口resize事件处理
+     * - 鼠标移动事件优化
+     */
     debounce(func, wait) {
         let timeout;
         return (...args) => {
@@ -87,21 +115,53 @@ class Experience {
         this.renderer.setClearColor(0x000000, 0);
     }
     
-    // 设置场景灯光
+    /**
+     * 初始化场景灯光系统
+     * 灯光配置：
+     * 1. 环境光 (AmbientLight) - 提供基础全局照明
+     *    - 颜色: 白色
+     *    - 强度: 0.8
+     * 2. 定向光 (DirectionalLight) - 模拟主要光源（如太阳）
+     *    - 颜色: 白色  
+     *    - 强度: 1
+     *    - 位置: (1,1,1)
+     * 
+     * 光照效果关联：
+     * - 影响所有场景中的材质表现
+     * - 与装饰线条的透明材质产生交互效果
+     */
     setupLights() {
-        // 添加环境光（柔和的全局照明）
+        // 添加环境光（基础全局照明）
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
         this.scene.add(ambientLight);
         
-        // 添加定向光（模拟太阳光）
+        // 添加主定向光源（模拟太阳光）
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1); // 设置光源位置
+        directionalLight.position.set(1, 1, 1); // 设置光源空间坐标
         this.scene.add(directionalLight);
     }
     
-    // 设置渐变背景
+    /**
+     * 创建动态渐变背景
+     * 技术实现：
+     * 1. 使用CSS线性渐变创建多色背景
+     * 2. 通过GSAP动画实现背景位置变化
+     * 3. 设置无限循环的渐变动画
+     * 
+     * 渐变颜色：
+     * #ff9a9e（粉红）→ #fad0c4（浅粉）→ #a18cd1（淡紫）→ #fbc2eb（浅紫）
+     * 
+     * 动画配置：
+     * - 持续时间：20秒
+     * - 缓动函数：sine.inOut
+     * - 循环模式：yoyo（来回播放）
+     * 
+     * 视觉关联：
+     * - 与装饰线条的颜色形成对比
+     * - 通过透明渲染器背景显示
+     */
     setupBackground() {
-        // 创建彩色渐变背景
+        // 初始化渐变背景
         document.body.style.background = 'linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #a18cd1, #fbc2eb)';
         document.body.style.backgroundSize = '400% 400%'; // 设置背景尺寸为原始尺寸的4倍，便于动画
         
@@ -115,8 +175,31 @@ class Experience {
         });
     }
     
+    /**
+     * 创建三维装饰线条系统
+     * 功能特性：
+     * 1. 随机生成三维空间曲线
+     * 2. 多色系配置（5种预设颜色循环使用）
+     * 3. 自动旋转动画
+     * 
+     * 技术参数：
+     * - lineCount: 控制生成的线条数量
+     * - segmentCount: 每条线的分段数（决定曲线平滑度）
+     * - radius: 线条分布半径（120-220随机值）
+     * 
+     * 空间计算：
+     * 使用球坐标系生成点位置 (theta, phi)
+     * 公式：
+     * x = radius * sin(phi) * cos(theta)
+     * y = radius * sin(phi) * sin(theta)
+     * z = radius * cos(phi)
+     * 
+     * 动画配置：
+     * - 每条线独立旋转动画
+     * - 动画持续时间递增（15-42秒）
+     * - 无限循环旋转
+     */
     setupLines() {
-        // Create decorative lines
         this.lines = new THREE.Group();
         this.scene.add(this.lines);
         
@@ -167,10 +250,24 @@ class Experience {
         }
     }
     
+    /**
+     * 初始化事件监听系统
+     * 包含事件：
+     * 1. 窗口调整事件 - 调用onResize方法
+     * 2. 鼠标移动事件 - 控制线条旋转
+     * 
+     * 鼠标事件处理：
+     * - 将鼠标坐标转换为归一化设备坐标（-1到1）
+     * - 应用缓动动画实现平滑旋转过渡
+     * - 仅影响线条组的整体旋转
+     * 
+     * 性能优化：
+     * 使用防抖函数处理resize事件（通过debounce方法）
+     */
     setupEventListeners() {
-        window.addEventListener('resize', this.onResize.bind(this));
+        window.addEventListener('resize', this.debounce(this.onResize.bind(this), 300));
         
-        // 修改鼠标移动逻辑，移除透明度变化，仅保留旋转效果
+        // 鼠标移动交互逻辑
         window.addEventListener('mousemove', (e) => {
             const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
             const mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -185,7 +282,22 @@ class Experience {
         });
     }
     
-    // 新增方法：控制每条线的生命周期逻辑
+    /**
+     * 线条生命周期管理
+     * @param {THREE.Line} line - 要设置动画的线条对象
+     * @param {number} index - 线条索引号（用于延迟计算）
+     * 
+     * 动画流程：
+     * 1. 渐入动画（0 → 0.7透明度，持续2.5秒）
+     * 2. 保持可见状态（随机5-10秒）
+     * 3. 渐出动画（0.7 → 0透明度，持续2.5秒）
+     * 4. 递归调用实现循环
+     * 
+     * 技术细节：
+     * - 使用GSAP的链式动画实现阶段过渡
+     * - 通过延迟(index * 0.5s)实现交错动画效果
+     * - 缓动函数使用power2.out实现自然过渡
+     */
     animateLineLifecycle(line, index) {
         const lifecycleDuration = 5 + Math.random() * 5; // 随机生成5到10秒的生命周期
 
@@ -211,7 +323,25 @@ class Experience {
         });
     }
 
-    // 修改 setupAnimations 方法，确保初始化时部分线条可见
+    /**
+     * 初始化核心动画系统
+     * @method setupAnimations
+     * 
+     * 包含动画：
+     * 1. 标题文字入场动画
+     * 2. 副标题文字入场动画
+    3. 线条生命周期管理
+     * 
+     * 动画配置：
+     * - 使用expo.out缓动实现流畅的入场效果
+     * - 标题和副标题动画错开0.5秒
+     * - 与线条生命周期动画同步启动
+     * 
+     * 关联元素：
+     * - .title 标题元素
+     * - .subtitle 副标题元素
+     * - lines 装饰线条组
+     */
     setupAnimations() {
         const title = document.querySelector('.title');
         const subtitle = document.querySelector('.subtitle');
@@ -251,8 +381,27 @@ class Experience {
             });
         }
     }
+    /**
+     * 初始化滚动动画系统
+     * @method setupScrollAnimations
+     * 
+     * 功能特性：
+     * 1. 创建响应式项目卡片布局
+     * 2. 动态生成项目图片
+     * 3. 应用错位旋转效果
+     * 4. 生成渐变色背景
+     * 
+     * 布局逻辑：
+     * - 奇数索引卡片右对齐并顺时针旋转
+     * - 偶数索引卡片左对齐并逆时针旋转
+     * - 卡片颜色基于索引生成HSL色相值
+     * 
+     * 动态元素：
+     * - 自动插入项目图片
+     * - 卡片背景色动态计算
+     * - 卡片旋转角度动态设置
+     */
     setupScrollAnimations() {
-        // 设置项目卡片基础样式
         const projectCards = document.querySelectorAll('.project-card');
         const projectsGrid = document.querySelector('.projects-grid');
         
@@ -322,10 +471,19 @@ class Experience {
 }
 
 // Initialize the experience when the DOM is loaded
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize main scene
     try {
         new Experience();
     } catch (error) {
         console.error('Failed to initialize the experience:', error);
     }
+    
+    // Initialize AOS (Animate On Scroll)
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: false,
+        mirror: true
+    });
 });
