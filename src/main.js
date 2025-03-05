@@ -1,45 +1,27 @@
 // 导入必要的库
-import * as THREE from 'three'; // 3D渲染库
-import { gsap } from 'gsap'; // 动画库
-import Lenis from '@studio-freight/lenis'; // 平滑滚动库
+import * as THREE from 'three';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from '@studio-freight/lenis';
+
+// 注册 ScrollTrigger 插件
+gsap.registerPlugin(ScrollTrigger);
 
 // 初始化平滑滚动
 const lenis = new Lenis({
-    duration: 1.2, // 滚动持续时间
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // 缓动函数
-    orientation: 'vertical', // 滚动方向
-    smoothWheel: true // 启用平滑滚动
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    smoothWheel: true
 });
 
-// 动画循环函数，确保平滑滚动效果
 function raf(time) {
-    lenis.raf(time); // 更新Lenis滚动状态
-    requestAnimationFrame(raf); // 递归调用，创建动画循环
+    lenis.raf(time);
+    requestAnimationFrame(raf);
 }
 
-// 启动动画循环
 requestAnimationFrame(raf);
 
-/**
- * 主场景类 - 管理整个3D场景的生命周期
- * @class Experience
- * @property {THREE.Scene} scene - Three.js场景对象
- * @property {THREE.PerspectiveCamera} camera - 透视相机
- * @property {THREE.WebGLRenderer} renderer - WebGL渲染器
- * @property {THREE.Group} lines - 装饰线条的组对象
- * @property {number} lineCount - 当前场景中装饰线条的数量
- * 
- * 主要功能模块：
- * 1. 场景初始化（相机、渲染器、灯光、背景、装饰线条）
- * 2. 事件监听（窗口调整、鼠标移动）
- * 3. 动画系统（GSAP动画、生命周期管理）
- * 4. 滚动动画控制
- * 5. 渲染循环管理
- * 
- * 相关模块：
- * - Lenis 平滑滚动库
- * - GSAP 动画库
- */
 class Experience {
     /**
      * 防抖函数 - 用于优化高频事件处理
@@ -59,31 +41,20 @@ class Experience {
         };
     }
     constructor() {
-        // 添加 lineCount 成员变量
-        this.lineCount = 0;
-        // 获取canvas元素
+        this.lineCount = 10;
         this.container = document.getElementById('webgl');
         if (!this.container) {
             console.error('Canvas element with id "webgl" not found.');
             return;
         }
-        // 创建3D场景
         this.scene = new THREE.Scene();
-        
-        // 移除纯色背景以允许渐变效果显示
-        // this.scene.background = new THREE.Color('#000000');
-        
-        // 初始化各个组件
-        this.setupCamera(); // 设置相机
-        this.setupRenderer(); // 设置渲染器
-        this.setupLights(); // 设置灯光
-        this.setupBackground(); // 设置背景
-        this.setupLines(); // 设置装饰线条
-        this.setupEventListeners(); // 设置事件监听器
-        this.setupAnimations(); // 设置动画
-        this.setupScrollAnimations(); // 设置滚动动画
-        
-        // 开始渲染循环
+        this.setupCamera();
+        this.setupRenderer();
+        this.setupLights();
+        this.setupBackground();
+        this.setupLines();
+        this.setupEventListeners();
+        this.setupAnimations();
         this.render();
     }
     
@@ -115,21 +86,7 @@ class Experience {
         this.renderer.setClearColor(0x000000, 0);
     }
     
-    /**
-     * 初始化场景灯光系统
-     * 灯光配置：
-     * 1. 环境光 (AmbientLight) - 提供基础全局照明
-     *    - 颜色: 白色
-     *    - 强度: 0.8
-     * 2. 定向光 (DirectionalLight) - 模拟主要光源（如太阳）
-     *    - 颜色: 白色  
-     *    - 强度: 1
-     *    - 位置: (1,1,1)
-     * 
-     * 光照效果关联：
-     * - 影响所有场景中的材质表现
-     * - 与装饰线条的透明材质产生交互效果
-     */
+
     setupLights() {
         // 添加环境光（基础全局照明）
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
@@ -141,64 +98,21 @@ class Experience {
         this.scene.add(directionalLight);
     }
     
-    /**
-     * 创建动态渐变背景
-     * 技术实现：
-     * 1. 使用CSS线性渐变创建多色背景
-     * 2. 通过GSAP动画实现背景位置变化
-     * 3. 设置无限循环的渐变动画
-     * 
-     * 渐变颜色：
-     * #ff9a9e（粉红）→ #fad0c4（浅粉）→ #a18cd1（淡紫）→ #fbc2eb（浅紫）
-     * 
-     * 动画配置：
-     * - 持续时间：20秒
-     * - 缓动函数：sine.inOut
-     * - 循环模式：yoyo（来回播放）
-     * 
-     * 视觉关联：
-     * - 与装饰线条的颜色形成对比
-     * - 通过透明渲染器背景显示
-     */
     setupBackground() {
         // 初始化渐变背景
-        document.body.style.background = 'linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #a18cd1, #fbc2eb)';
+        document.body.style.background = 'linear-gradient(45deg, #CDB4DB, #FFC8DD, #FFAFCC, #BDE0FE, #A2D2FF)';
         document.body.style.backgroundSize = '400% 400%'; // 设置背景尺寸为原始尺寸的4倍，便于动画
         
         // 使用GSAP动画库制作渐变动画
         gsap.to(document.body, {
             backgroundPosition: '100% 100%', // 动画终点位置
-            duration: 20, // 动画持续时间（秒）
+            duration: 30, // 动画持续时间（秒）
             repeat: -1, // 无限重复
             yoyo: true, // 来回播放
             ease: 'sine.inOut' // 缓动函数
         });
     }
     
-    /**
-     * 创建三维装饰线条系统
-     * 功能特性：
-     * 1. 随机生成三维空间曲线
-     * 2. 多色系配置（5种预设颜色循环使用）
-     * 3. 自动旋转动画
-     * 
-     * 技术参数：
-     * - lineCount: 控制生成的线条数量
-     * - segmentCount: 每条线的分段数（决定曲线平滑度）
-     * - radius: 线条分布半径（120-220随机值）
-     * 
-     * 空间计算：
-     * 使用球坐标系生成点位置 (theta, phi)
-     * 公式：
-     * x = radius * sin(phi) * cos(theta)
-     * y = radius * sin(phi) * sin(theta)
-     * z = radius * cos(phi)
-     * 
-     * 动画配置：
-     * - 每条线独立旋转动画
-     * - 动画持续时间递增（15-42秒）
-     * - 无限循环旋转
-     */
     setupLines() {
         this.lines = new THREE.Group();
         this.scene.add(this.lines);
@@ -207,13 +121,13 @@ class Experience {
         this.lineCount = 10; // 控制线条数量 (原值: 10) - Controls number of lines (original: 10)
         
         const colors = [
-            0xff5e62, 0x00b8ff, 0xffd166, 0xa18cd1, 0x00f260
+            0xFBF8CC, 0xFDE4CF, 0xFFCFD2, 0xF1C0E8, 0xCFBAF0, 0xA3C4F3, 0x90DBF4, 0x8EECF5, 0x98F5E1, 0xB9FBC0
         ];
         
         for (let i = 0; i < this.lineCount; i++) {
             const points = [];
-            const segmentCount = 30;
-            const radius = 120 + Math.random() * 100;
+            const segmentCount = 100;
+            const radius = 120 + Math.random() * 500;
             
             for (let j = 0; j <= segmentCount; j++) {
                 const theta = (j / segmentCount) * Math.PI * 2;
@@ -231,7 +145,7 @@ class Experience {
                 color: colors[i % colors.length],
                 transparent: true,
                 opacity: 0.7,
-                linewidth: 2
+                linewidth: 20
             });
             
             const line = new THREE.Line(lineGeometry, lineMaterial);
@@ -281,23 +195,7 @@ class Experience {
             }
         });
     }
-    
-    /**
-     * 线条生命周期管理
-     * @param {THREE.Line} line - 要设置动画的线条对象
-     * @param {number} index - 线条索引号（用于延迟计算）
-     * 
-     * 动画流程：
-     * 1. 渐入动画（0 → 0.7透明度，持续2.5秒）
-     * 2. 保持可见状态（随机5-10秒）
-     * 3. 渐出动画（0.7 → 0透明度，持续2.5秒）
-     * 4. 递归调用实现循环
-     * 
-     * 技术细节：
-     * - 使用GSAP的链式动画实现阶段过渡
-     * - 通过延迟(index * 0.5s)实现交错动画效果
-     * - 缓动函数使用power2.out实现自然过渡
-     */
+
     animateLineLifecycle(line, index) {
         const lifecycleDuration = 5 + Math.random() * 5; // 随机生成5到10秒的生命周期
 
@@ -323,56 +221,17 @@ class Experience {
         });
     }
 
-    /**
-     * 初始化核心动画系统
-     * @method setupAnimations
-     * 
-     * 包含动画：
-     * 1. 标题文字入场动画
-     * 2. 副标题文字入场动画
-    3. 线条生命周期管理
-     * 
-     * 动画配置：
-     * - 使用expo.out缓动实现流畅的入场效果
-     * - 标题和副标题动画错开0.5秒
-     * - 与线条生命周期动画同步启动
-     * 
-     * 关联元素：
-     * - .title 标题元素
-     * - .subtitle 副标题元素
-     * - lines 装饰线条组
-     */
     setupAnimations() {
         const title = document.querySelector('.title');
         const subtitle = document.querySelector('.subtitle');
         
-        // 设置初始状态
-        gsap.set([title, subtitle], {
-            opacity: 0,
-            y: 30
-        });
+        gsap.set([title, subtitle], { opacity: 0, y: 30 });
+        gsap.to(title, { opacity: 1, y: 0, duration: 2, delay: 0.5, ease: 'expo.out' });
+        gsap.to(subtitle, { opacity: 1, y: 0, duration: 2, delay: 1, ease: 'expo.out' });
         
-        // 添加标题动画
-        gsap.to(title, {
-            opacity: 1,
-            y: 0,
-            duration: 2,
-            delay: 0.5,
-            ease: 'expo.out'
-        });
-        
-        gsap.to(subtitle, {
-            opacity: 1,
-            y: 0,
-            duration: 2,
-            delay: 1,
-            ease: 'expo.out'
-        });
-        
-        // 确保线条动画与标题动画同步
         if (this.lines) {
             this.lines.children.forEach((line, index) => {
-                if (index < this.lineCount) { // 使用 this.lineCount
+                if (index < this.lineCount) {
                     line.material.opacity = 0.7;
                 } else {
                     line.material.opacity = 0;
@@ -381,72 +240,9 @@ class Experience {
             });
         }
     }
-    /**
-     * 初始化滚动动画系统
-     * @method setupScrollAnimations
-     * 
-     * 功能特性：
-     * 1. 创建响应式项目卡片布局
-     * 2. 动态生成项目图片
-     * 3. 应用错位旋转效果
-     * 4. 生成渐变色背景
-     * 
-     * 布局逻辑：
-     * - 奇数索引卡片右对齐并顺时针旋转
-     * - 偶数索引卡片左对齐并逆时针旋转
-     * - 卡片颜色基于索引生成HSL色相值
-     * 
-     * 动态元素：
-     * - 自动插入项目图片
-     * - 卡片背景色动态计算
-     * - 卡片旋转角度动态设置
-     */
-    setupScrollAnimations() {
-        const projectCards = document.querySelectorAll('.project-card');
-        const projectsGrid = document.querySelector('.projects-grid');
-        
-        // 设置容器样式
-        if (projectsGrid) {
-            projectsGrid.style.display = 'flex';
-            projectsGrid.style.flexDirection = 'column';
-            projectsGrid.style.flexWrap = 'wrap';
-            // projectsGrid.style.justifyContent = 'space-between';
-            projectsGrid.style.gap = '6rem';
-            projectsGrid.style.padding = '4rem 2rem';
-            // projectsGrid.style.maxWidth = '1200px';
-            projectsGrid.style.margin = '0 auto';
-        }
-        
-        // 初始化卡片样式
-        projectCards.forEach((card, index) => {
-            // 添加项目图片
-            const img = document.createElement('img');
-            img.src = `/assets/project-${index + 1}.jpg`;
-            img.alt = card.querySelector('.project-title').textContent;
-            img.classList.add('project-image');
-            
-            // 插入图片到内容区域前
-            const content = card.querySelector('.project-content');
-            card.insertBefore(img, content);
-            
-            // 设置卡片基础样式
-            card.style.width = '95%';
-            card.style.margin = '2rem 0';
-            card.style.transformOrigin = 'bottom center';
-            // 设置左右交替排列
-            if (index % 2 === 0) {
-                card.style.transform = 'rotate(-2deg)';
-                card.style.alignSelf = 'flex-start';
-            } else {
-                card.style.transform = 'rotate(2deg)'; 
-                card.style.alignSelf = 'flex-end';
-            }
-            
-            // 设置动态颜色
-            const hue = index * 30 % 360;
-            card.style.backgroundColor = `hsl(${hue}, 80%, 90%)`;
-        });
-    }
+
+    // 生成动态纹理
+
     onResize() {
         // Update camera
         const fov = (180 * (2 * Math.atan(window.innerHeight / 2 / this.perspective))) / Math.PI;
@@ -470,16 +266,32 @@ class Experience {
     }; // 添加分号
 }
 
-// Initialize the experience when the DOM is loaded
+// 项目卡片动画设置
+function setupProjectAnimations() {
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach((card) => {
+        gsap.set(card, { opacity: 0, y: 50 });
+        gsap.to(card, {
+            opacity: 1,
+            y: 0,
+            duration: 2,
+            ease: 'expo.out',
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 80%',
+                once: true
+            }
+        });
+    });
+}
+
+// 初始化
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize main scene
     try {
         new Experience();
     } catch (error) {
         console.error('Failed to initialize the experience:', error);
     }
-    
-    // Initialize AOS (Animate On Scroll)
     AOS.init({
         duration: 800,
         easing: 'ease-in-out',
@@ -487,3 +299,5 @@ document.addEventListener('DOMContentLoaded', () => {
         mirror: true
     });
 });
+
+window.addEventListener('load', setupProjectAnimations);

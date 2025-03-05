@@ -10,8 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@200;300;400&family=Cormorant+Garamond:wght@300;400&family=Italiana&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Livvic:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* 全局CSS变量定义
@@ -20,10 +19,10 @@
              - 主色/辅色/强调色
              - 文字颜色定义 */
         :root {
-            --primary-color: #ff9a9e;
-            --secondary-color: #a18cd1;
-            --accent-color: #4ecdc4;
-            --text-color: #2d2d2d;
+            --primary-color: #FFC8DD;
+            --secondary-color: #CDB4DB;
+            --accent-color: #FFAFCC;
+            --text-color: #0b132b;
         }
 
         /* About区域容器布局
@@ -51,108 +50,7 @@
             }
         }
 
-        /* 个人资料卡片样式
-           功能：展示个人信息和社交链接
-           效果：
-             - 渐变毛玻璃背景
-             - 3D悬浮效果
-             - 动态粒子背景
-           关联脚本：
-             - aboutBackground.js：控制粒子动画 */
-        .profile-card {
-            background: linear-gradient(145deg, rgba(255,154,158,0.15) 0%, rgba(161,140,209,0.2) 100%);
-            backdrop-filter: blur(20px) saturate(180%);
-            border-radius: 2.5rem;
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-            transform: translateY(-10px);
-        }
 
-        .profile-card:hover {
-            transform: translateY(-20px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        /* 头像容器样式
-           功能：保持1:1宽高比的圆形头像容器
-           包含元素：
-             - 实际图片容器（image-wrapper）
-             - 装饰性旋转圆圈（deco-circle） */
-        .profile-image {
-            position: relative;
-            width: 100%;
-            padding-bottom: 100%;
-            margin-bottom: 2rem;
-        }
-
-        /* 实际头像图片样式
-           功能：显示个人头像
-           特性：
-             - 80%容器大小的圆形裁剪
-             - 边框颜色使用主色变量
-             - 背景图片通过内联样式设置 */
-        .image-wrapper {
-            position: absolute;
-            width: 80%;
-            height: 80%;
-            left: 10%;
-            top: 10%;
-            border-radius: 50%;
-            overflow: hidden;
-            background: url('assets/profile.jpg') center/cover;
-            border: 3px solid var(--primary-color);
-        }
-
-        /* 装饰性旋转圆圈动画
-           功能：增加视觉动态效果
-           动画参数：
-             - 20秒完成一次完整旋转
-             - 无限循环线性动画 */
-        .deco-circle {
-            position: absolute;
-            width: 110%;
-            height: 110%;
-            border: 2px dashed var(--accent-color);
-            border-radius: 50%;
-            animation: rotate 20s linear infinite;
-        }
-
-        /* 个人姓名标题样式
-           字体特性：
-             - 使用Syncopate无衬线字体
-             - 主色变量应用
-             - 2.5rem字号 */
-        .profile-info h3 {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        /* 职位标题样式
-           字体特性：
-             - 使用Cormorant Garamond衬线字体
-             - 半透明白色文字
-             - 1.5rem字号 */
-        .profile-info .title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            color: rgba(255,255,255,0.8);
-        }
-
-        /* 旋转动画定义
-           功能：驱动装饰圆圈的无限旋转
-           参数：
-             - 20秒完成完整旋转
-             - 线性速度曲线 */
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
         /* 全局样式重置
            功能：消除浏览器默认样式差异
            包含：
@@ -197,6 +95,9 @@
              - 1.1rem字号
              - 文字颜色白色 */
         .nav-link {
+            font-family: "Livvic", sans-serif;
+            font-weight: 400;
+            font-style: normal;
             color: #fff;
             text-decoration: none;
             font-size: 1.1rem;
@@ -220,41 +121,6 @@
         }
         .nav-link:hover::after {
             width: 100%;
-        }
-        /* 首页英雄区域容器
-           功能：全屏展示标题和背景
-           布局特性：
-             - 100vh视口高度
-             - 弹性垂直居中
-             - 最高内容层级（z-index:2）
-           关联元素：
-             - WebGL画布背景 */
-        .hero {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-        /* 首页文字内容容器
-           功能：包裹标题和副标题
-           特效：
-             - 混合模式（mix-blend-mode）
-             - 初始隐藏动画（opacity:0）
-           布局：
-             - 最大宽度90%
-             - 居中对齐 */
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            max-width: 90%;
-            padding: 2rem;
-            mix-blend-mode: difference;
         }
         /* WebGL画布样式
            功能：全屏3D背景容器
@@ -280,44 +146,33 @@
              - 初始隐藏（opacity:0）
              - 滚动时渐显（main.js控制） */
         .title {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 5vw;
-            font-weight: 300;
+            font-family: "Livvic", sans-serif;
+            font-size: 7vw;
+            font-weight: 200;
+            font-style: normal;
             text-transform: uppercase;
             letter-spacing: 0.4em;
             margin-bottom: 2rem;
             opacity: 0;
             transform: translateY(20px);
-            color: rgba(255, 255, 255, 1);
+            color: #fff;
             text-shadow: none;
             line-height: 1.4;
         }
-        /* 副标题样式
-           字体特性：
-             - Cormorant Garamond衬线字体
-             - 1.5vw响应式字号
-             - 字间距0.2em
-           动画特性：
-             - 与主标题同步渐显 */
+
         .subtitle {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: "Livvic", sans-serif;
             font-size: 1.5vw;
-            font-weight: 300;
+            font-weight: 200;
+            font-style: normal;
             letter-spacing: 0.2em;
             opacity: 0;
             transform: translateY(20px);
-            color: rgba(255, 255, 255, 1);
+            color: #fff;
             text-transform: none;
             line-height: 1.6;
         }
-        /* 页面区块通用样式
-           功能：定义所有内容区块的基础布局
-           特性：
-             - 最小100vh高度
-             - 相对定位层级
-             - 弹性垂直居中布局
-           应用区块：
-             - 首页、项目、关于、联系 */
+
         .section {
             position: relative;
             z-index: 2;
@@ -326,385 +181,92 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
         }
-        /* 区块标题样式
-           功能：各章节的主标题设计
-           特效：
-             - 渐变文字效果
-             - 大写字母转换
-             - 响应式字号（3.5vw）
-           动画：
-             - 透明度过渡效果 */
-    .section-title {
-        font-size: 3.5vw;
-        font-weight: 700;
-        margin-bottom: 4rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        background: linear-gradient(45deg, #ff9a9e, #a18cd1);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        transition: all 0.3s ease;
-        }
-        /* 项目卡片网格布局 
-           ▸ 作用：创建响应式项目展示网格
-           ▸ 结构参数：
-              - 最小列宽300px
-              - 自动填充剩余空间
-              - 2rem间距
-           ▸ 交互特性：
-              - 卡片悬停缩放效果
-              - 标题渐显动画
-           ▸ 关联脚本：
-              - main.js：处理滚动触发动画 */
-        /* 项目网格布局容器
-           功能：响应式项目展示网格
-           结构参数：
-             - 最小列宽300px
-             - 自动填充剩余空间
-             - 2rem间距
-           关联脚本：
-             - main.js：处理卡片交互动画 */
+
+        /* 垂直排列项目容器 */
         .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 40rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        /* 项目区头部容器
-           功能：固定定位的副标题
-           布局特性：
-             - 绝对定位在首屏底部
-             - 居中显示
-             - 最高层级（z-index:1000）
-           动画特性：
-             - 滚动时渐显 */
-    .projects-header {
-        position: relative;
-        margin-bottom: 8rem;
-        text-align: center;
-    }
-        /* 粘性副标题样式
-           功能：滚动时固定显示的章节标题
-           特效：
-             - 多重渐变背景
-             - 模糊效果
-             - 投影增强层次感
-           关联交互：
-             - 滚动位置监听（main.js） */
-    .sticky-subtitle {
-        position: fixed;
-        top: 100vh; /* 定位在首屏底部 */
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 5vw;
-        font-family: 'Syncopate', sans-serif;
-        background: linear-gradient(45deg, #ff6b6b 20%, #4ecdc4 50%, #45b7d1 80%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        opacity: 0;
-        padding: 2rem 4rem;
-        border-radius: 2rem;
-        backdrop-filter: blur(20px);
-        transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-        z-index: 1000;
-        white-space: nowrap;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-    .projects-header {
-        position: relative;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding-bottom: 10vh;
-    }
-    .sticky-subtitle {
-        position: absolute;
-        top: 100vh; /* 定位到首屏底部 */
-        left: 0;
-        width: 100%;
-        font-size: 4vw;
-        font-family: 'Syncopate', sans-serif;
-        text-align: center;
-        padding: 2rem 0;
-        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        opacity: 0;
-        transition: opacity 0.5s ease;
-        z-index: 1000;
-    }
-        /* 项目卡片容器
-           功能：单个项目展示单元
-           特效：
-             - 悬停抬升效果
-             - 渐变背景
-             - 毛玻璃效果
-           布局：
-             - 内边距2.2rem
-             - 自动左右外边距 */
-    .project-card {
-        position: relative;
-        width: 110%;
-        max-width: 1320px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        gap: 2.2rem;
-        padding: 2.2rem;
-        border-radius: 13.2px;
-        background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a18cd1);
-        backdrop-filter: blur(20px) brightness(1.1);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 11px 33px rgba(0, 0, 0, 0.2);
-    }
+        /* 统一尺寸项目卡片 */
+        .project-card {
+            display: flex;
+            position: relative;
+            max-width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            background: rgba(255, 255, 255, 0);
+            z-index: 1;
+            gap: 5rem;
+        }
 
-        /* 项目图片容器
-           功能：展示项目预览图
-           特性：
-             - 16:9宽高比
-             - 圆角裁剪
-             - 悬停缩放动画 */
-    .project-image {
-        width: 50%;
-        aspect-ratio: 16/9;
-        object-fit: cover;
-        border-radius: 8px;
-        transition: transform 0.5s ease;
-    }
-        /* 项目文字内容容器
-           功能：包裹标题和描述
-           布局特性：
-             - 弹性布局剩余空间
-             - 内边距1rem
-             - 白色文字颜色 */
-    .project-content {
-        flex: 1;
-        color: white;
-        padding: 1rem;
-    }
-        /* 项目标题样式
-           字体特性：
-             - Playfair Display衬线字体
-             - 2.2rem字号
-             - 600字重
-           布局：
-             - 下边距1.1rem */
-    .project-title {
-        font-size: 2.2rem;
-        font-weight: 600;
-        margin-bottom: 1.1rem;
-        font-family: 'Playfair Display', serif;
-        position: relative;
-        color: #ffffff;
-    }
-        /* 项目描述文本样式
-           字体特性：
-             - Cormorant Garamond衬线体
-             - 1.21rem字号
-             - 1.76行高
-           颜色：80%透明白色 */
-    .project-description {
-        font-size: 1.21rem;
-        line-height: 1.76;
-        color: rgba(255, 255, 255, 0.8);
-        font-family: 'Cormorant Garamond', serif;
-    }
-        /* 项目标题悬停效果
-           功能：悬停时显示完整标题
-           动画特性：
-             - 透明度过渡
-             - 位移重置 */
-    .project-card:hover .project-title {
-        opacity: 1;
-        transform: translateY(0);
-    }
-        /* 项目图片悬停效果
-           动画特性：
-             - 1.05倍缩放
-             - 0.5秒缓动过渡 */
-    .project-card:hover .project-image {
-        transform: scale(1.05);
-    }
-    .projects-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 3rem;
-        padding: 2rem;
-    }
-        /* 项目卡片悬停效果
-           动画特性：
-             - 上移10px
-             - 0.3秒缓动过渡
-             - 投影增强 */
-    .project-card:hover {
-        transform: translateY(-10px);
-    }
-        /* 项目标题基础样式（移动端适配）
-           特性：
-             - 相对定位
-             - 1.32rem字号
-             - 白色文字颜色 */
-    .project-title {
-        position: relative;
-        margin-bottom: 1.1rem;
-        font-size: 1.32rem;
-        font-weight: 600;
-        color: #ffffff;
-    }
-        /* 个人简介内容区域
-           功能：包含技能组和简介文本
-           布局：
-             - 最大宽度800px
-             - 1.8倍行高
-             - 下边距控制 */
-    .about-content {
-        max-width: 800px;
-        line-height: 1.8;
-    }
+        /* 奇数项：左偏移默认布局 */
+        .project-card:nth-child(odd) {
+            transform: translateX(-8%);
+            flex-direction: row;
+        }
 
-        /* 页脚容器样式
-           功能：网站底部信息展示
-           特性：
-             - 半透明背景
-             - 模糊效果
-             - 弹性空间分布布局 */
-    .footer {
-        position: relative;
-        z-index: 2;
-        padding: 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px);
-        font-size: 0.9rem;
-    }
-        /* 社交链接容器
-           布局特性：
-             - 弹性水平布局
-             - 1.5rem间距
-             - 右对齐 */
-    .social-links {
-        display: flex;
-        gap: 1.5rem;
-    }
-        /* 社交链接基础样式
-           交互特性：
-             - 悬停透明度变化
-             - 背景色过渡
-             - 图标缩放效果 */
-    .social-link {
-        color: #fff;
-        text-decoration: none;
-        opacity: 0.7;
-        transition: all 0.3s ease;
-    }
+        /* 偶数项：右偏移反转布局 */
+        .project-card:nth-child(even) {
+            transform: translateX(8%);
+            flex-direction: row-reverse;
+        }
 
-        /* 内容区域悬浮效果
-           功能：增强3D视觉层次
-           特效：
-             - Y轴位移
-             - 旋转透视
-             - 内外阴影组合 */
-    .about-content {
-        transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
-        box-shadow: 0 25px 60px rgba(0,0,0,0.4),
-                    inset 0 6px 16px rgba(255,255,255,0.15);
-    }
-   
-        /* 个人简介段落样式
-           布局特性：
-             - 左侧2rem内边距
-             - 相对定位
-             - 投影增强层次感
-           装饰元素：
-             - 左侧三角符号 */
-    .about-content p {
-        margin-bottom: 2rem;
-        position: relative;
-        padding-left: 2rem;
-        font-family: 'Cormorant Garamond', serif;
-        transform: translateY(-5px);
-        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
-    }
+        /* 悬停效果 */
+        .project-card:nth-child(odd):hover {
+            transform: translateX(-8%) scale(1.01);
+        }
 
-    .about-content p::before {
-        content: "▹";
-        position: absolute;
-        left: 0;
-        color: #ff9a9e;
-        font-size: 1.2em;
-        top: 0;
-    }
+        .project-card:nth-child(even):hover {
+            transform: translateX(8%) scale(1.01);
+        }
 
-        /* 社交链接容器样式
-           布局特性：
-             - 弹性居中对齐
-             - 0.5rem内部间距
-             - 圆角边框
-           交互特性：
-             - 背景透明度变化 */
-    .social-link {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        border-radius: 2rem;
-        background: rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-    }
-        /* 社交链接悬停状态
-           变化特性：
-             - 完全显示
-             - 轻微上移
-             - 背景加深
-             - 投影增强 */
-    .social-link:hover {
-        opacity: 1;
-        transform: translateY(-2px);
-        background: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-        /* 社交图标基础样式
-           特性：
-             - 1.2rem字号
-             - 过渡缩放效果
-             - 垂直居中 */
-    .social-link i {
-        font-size: 1.2rem;
-        transition: transform 0.3s ease;
-    }
-        /* 社交图标悬停效果
-           动画特性：
-             - 1.2倍缩放
-             - 0.3秒缓动过渡 */
-    .social-link:hover i {
-        transform: scale(1.2);
-    }
+
+        .project-image {
+            width: 70%;
+            object-fit: cover;
+            border-radius: 25px;
+            border: 10px solid rgba(255, 255, 255, 0.20); /* 边框效果增强玻璃质感 */
+        }
+
+        /* 内容区域样式 */
+        .project-content {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: #fff;
+        }
+
+        .project-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            color: #fff;
+        }
+
+         /* 给 #home 部分添加底部外边距 */
+         #home {
+            margin-bottom: 20rem; /* 可以根据需要调整这个值，值越大，间距越大 */
+        }
 </style>
+
 </head>
   <body>
-    <section id="home" class="section">
-        <div class="header-content">
-            <h1 class="title">Creative Developer</h1>
-            <p class="subtitle">Interactive Experiences & Digital Solutions</p>
-        </div>
-        <canvas id="webgl"></canvas>
-    </section>
-    
-    <!-- 
-      导航栏部分
-      功能：提供页面导航功能
-      样式：固定定位，毛玻璃效果，hover时有下划线动画
-      效果：页面滚动时保持可见，提供流畅的导航体验
-    -->
     <header class="header">
         <nav class="nav">
             <a href="#home" class="nav-link">Home</a>
@@ -712,100 +274,34 @@
             <a href="#about" class="nav-link">About</a>
         </nav>
     </header>
-
+    <section id="home" class="section">
+        <div class="header-content">
+            <h1 class="title">Creative Developer</h1>
+            <p class="subtitle">Interactive Experiences & Digital Solutions</p>
+        </div>
+        <canvas id="webgl"></canvas>
+    </section>
     <section id="projects" class="section">
-        <!-- 动态渐变标题，颜色与3D线条同步 -->
-        <h2 class="section-title">Project Show</h2>
         <div class="projects-grid">
             <div class="project-card">
+                <img src="assets/project-1.jpg" alt="Project Image" class="project-image">
                 <div class="project-content">
                     <h3 class="project-title">Project One</h3>
                     <p class="project-description">一个创新式AI Girl，可以与你在3D空间内互动。</p>
                 </div>
             </div>
             <div class="project-card">
+                <img src="assets/project-1.jpg" alt="Project Image" class="project-image">
                 <div class="project-content">
                     <h3 class="project-title">Project Two</h3>
                     <p class="project-description">移动应用程序界面设计，专注于用户体验和直观操作。采用了最新的设计趋势和交互模式，确保用户可以轻松导航和使用所有功能。</p>
                 </div>
             </div>
             <div class="project-card">
+                <img src="assets/project-1.jpg" alt="Project Image" class="project-image">
                 <div class="project-content">
                     <h3 class="project-title">Project Three</h3>
                     <p class="project-description">电子商务平台的视觉重新设计，包括品牌标识、用户界面和整体用户体验的改进。该项目显著提高了转化率和用户满意度。</p>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-content">
-                    <h3 class="project-title">Project Four</h3>
-                    <p class="project-description">数据可视化仪表板，将复杂的数据转化为易于理解的图表和图形。该项目使用了D3.js和现代前端框架，为用户提供了强大而直观的数据分析工具。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="section about-section">
-        <div class="about-background"></div>
-        <h2 class="section-title" data-aos="fade-up">About</h2>
-        <div class="profile-container">
-        <div class="about-container">
-            <div class="profile-card" data-aos="fade-left">
-                <div class="profile-image">
-                    <div class="image-wrapper"></div>
-                    <div class="deco-circle"></div>
-                </div>
-                <div class="profile-info">
-                    <h3 data-aos="fade-up" data-aos-delay="200">Damue</h3>
-                    <p class="title" data-aos="fade-up" data-aos-delay="300">Creative Developer</p>
-                    <div class="bio" data-aos="fade-up" data-aos-delay="350">
-                        <p>Passionate about creating immersive digital experiences through code and design. Specializing in 3D web development and creative coding.</p>
-                    </div>
-                    <div class="skills" data-aos="fade-up" data-aos-delay="400">
-                        <h4>Skills</h4>
-                        <div class="skill-item">
-                            <span class="skill-name">Three.js / WebGL</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">Creative Coding</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span class="skill-name">UI/UX Design</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="experience" data-aos="fade-up" data-aos-delay="450">
-                        <h4>Experience</h4>
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h5>2023 - Present</h5>
-                                    <p>Creative Developer - Freelance</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h5>2021 - 2023</h5>
-                                    <p>Interactive Developer - Studio</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="social-links" data-aos="fade-up" data-aos-delay="500">
-                        <a href="https://github.com/Damue01" target="_blank" class="social-button">
-                            <i class="fab fa-github"></i>
-                            <span>GitHub</span>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
