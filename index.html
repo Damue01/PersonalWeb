@@ -11,7 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Livvic:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* 全局CSS变量定义
            功能：存储网站主题色和文字颜色
@@ -24,32 +23,6 @@
             --accent-color: #FFAFCC;
             --text-color: #0b132b;
         }
-
-        /* About区域容器布局
-           功能：创建响应式双栏布局
-           结构参数：
-             - 移动端单列（max-width:768px）
-             - 桌面端双列（min-width:768px）
-             - 最大宽度1200px
-           关联脚本：
-             - main.js：处理布局切换动画 */
-        .about-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .about-container {
-                grid-template-columns: 1fr 1.5fr;
-                gap: 4rem;
-                padding: 2rem;
-            }
-        }
-
 
         /* 全局样式重置
            功能：消除浏览器默认样式差异
@@ -131,6 +104,7 @@
              - main.js：Three.js初始化 */
         #webgl {
             position: fixed;
+            background-color: #0101010a;
             top: 0;
             left: 0;
             width: 100%;
@@ -190,7 +164,7 @@
             flex-direction: column;
             gap: 40rem;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
         }
 
@@ -238,11 +212,12 @@
 
         /* 内容区域样式 */
         .project-content {
-            padding: 3rem;
+            font-family: "Livvic", sans-serif;
+            padding: 1.2rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .project-title {
@@ -271,7 +246,7 @@
         <nav class="nav">
             <a href="#home" class="nav-link">Home</a>
             <a href="#projects" class="nav-link">Projects</a>
-            <a href="#about" class="nav-link">About</a>
+            <a href="about.html" class="nav-link">About</a>
         </nav>
     </header>
     <section id="home" class="section">
