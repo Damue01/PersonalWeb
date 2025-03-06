@@ -58,29 +58,29 @@
         }
         #webgl {
             position: fixed;
+            background-color: #0101010a;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
-            background-color: #00000028;
         }
 
         .about-container {
-            max-width: 1300px;
-            top: 200px;
-            left: 100px;
-            padding: 3rem;
-            color: #fff;
-            position: relative;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;  /* 提升层级确保文字可点击 */
-            pointer-events: none;  /* 允许点击穿透到canvas */
-            
-
             font-family: "Livvic", sans-serif;
             font-style: normal;
+            color: #fff;
+            letter-spacing: 0.4em;
+
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: 8rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            left: 10rem;
         }
 
         .about-title {
@@ -112,12 +112,7 @@
         <div class="about-container">
             <h2 class="about-title">About Me</h2>
             <div class="about-content">
-                <p>创意开发者，专注于3D交互体验和现代Web技术。拥有5年以上的前端开发经验，擅长使用Three.js和WebGL创建沉浸式视觉效果。</p>
-                <br>
-                <div class="skill-item">WebGL / Three.js</div>
-                <div class="skill-item">React & Vue.js</div>
-                <div class="skill-item">Node.js后端开发</div>
-                <div class="skill-item">GLSL着色器编程</div>
+                <p>Interactive Experiences & Digital Solutions</p>
             </div>
         </div>
     <section>
