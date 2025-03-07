@@ -18,31 +18,14 @@
              - 主色/辅色/强调色
              - 文字颜色定义 */
         :root {
-            --primary-color: #FFC8DD;
-            --secondary-color: #CDB4DB;
-            --accent-color: #FFAFCC;
-            --text-color: #0b132b;
+            --text-color: #f8f9fa;
         }
 
-        /* 全局样式重置
-           功能：消除浏览器默认样式差异
-           包含：
-             - 边距清零
-             - 盒模型设置为border-box
-             - 字体平滑处理 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        /* 顶部导航栏容器
-           功能：固定定位的导航栏
-           特性：
-             - 毛玻璃背景效果
-             - 右侧对齐
-             - 最高z-index层级
-           关联交互：
-             - 滚动时透明度变化（main.js控制） */
         .header {
             position: fixed;
             top: 0;
@@ -59,21 +42,14 @@
             display: flex;
             gap: 3rem;
         }
-        /* 导航链接基础样式
-           交互特性：
-             - 悬停时下划线动画
-             - 透明度变化
-             - 轻微位移效果
-           字体特性：
-             - 1.1rem字号
-             - 文字颜色白色 */
+
         .nav-link {
             font-family: "Livvic", sans-serif;
             font-weight: 400;
             font-style: normal;
-            color: #fff;
+            color: var(--text-color);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             position: relative;
             opacity: 0.7;
             transition: all 0.4s ease;
@@ -89,7 +65,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background-color: #fff;
+            background-color: var(--text-color);
             transition: width 0.4s ease;
         }
         .nav-link:hover::after {
@@ -104,7 +80,7 @@
              - main.js：Three.js初始化 */
         #webgl {
             position: fixed;
-            background-color: #0101010a;
+            background-color: #01010109;
             top: 0;
             left: 0;
             width: 100%;
@@ -121,8 +97,7 @@
             letter-spacing: 0.4em;
             margin: 0 0 0 1.5rem;
 
-            color: #fff;
-            text-shadow: none;
+            color: var(--text-color);
             line-height: 1.4;
         }
 
@@ -131,7 +106,7 @@
             font-size: 1.5vw;
             font-weight: 200;
             font-style: normal;
-            color: #fff;
+            color: var(--text-color);
             line-height: 1.6;
             margin-left: 2.5rem;
             letter-spacing: 0.4em;
@@ -194,7 +169,7 @@
 
 
         .project-image {
-            width: 70%;
+            width: 65%;
             object-fit: cover;
             border-radius: 25px;
             border: 10px solid rgba(255, 255, 255, 0.20); /* 边框效果增强玻璃质感 */
@@ -204,24 +179,24 @@
         .project-content {
             font-family: "Livvic", sans-serif;
             padding: 1.2rem;
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 1rem;
+            
         }
 
         .project-title {
-            font-size: 2.2rem;
+            font-size: 3.2rem;
             font-weight: 300;
             letter-spacing: 0.1em;
-            color: #fff;
         }
 
         .project-description {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             line-height: 1.8;
             opacity: 0.8;
-            color: #fff;
         }
 
          /* 给 #home 部分添加底部外边距 */
@@ -241,8 +216,8 @@
     </header>
     <section id="home" class="section">
         <div class="header-content">
-            <h1 class="title">Creative Developer</h1>
-            <p class="subtitle">Interactive Experiences & Digital Solutions</p>
+            <h1 class="title">Damue Portfolio</h1>
+            <p class="subtitle">Take her to my world </p>
         </div>
         <canvas id="webgl"></canvas>
     </section>
@@ -251,22 +226,22 @@
             <div class="project-card">
                 <img src="assets/project-1.jpg" alt="Project Image" class="project-image">
                 <div class="project-content">
-                    <h3 class="project-title">Project One</h3>
-                    <p class="project-description">一个创新式AI Girl，可以与你在3D空间内互动。</p>
+                    <h3 class="project-title">AI Girl</h3>
+                    <p class="project-description">A virtual girlfriend powered by Unreal Engine, featuring multi-platform support and multi-modal large-scale model interaction capabilities.</p>
                 </div>
             </div>
             <div class="project-card">
                 <img src="assets/project-1.jpg" alt="Project Image" class="project-image">
                 <div class="project-content">
-                    <h3 class="project-title">Project Two</h3>
-                    <p class="project-description">移动应用程序界面设计，专注于用户体验和直观操作。采用了最新的设计趋势和交互模式，确保用户可以轻松导航和使用所有功能。</p>
+                    <h3 class="project-title">RL Model</h3>
+                    <p class="project-description">Enable the agent to derive the optimal policy through iterative interactions with the environment.</p>
                 </div>
             </div>
             <div class="project-card">
                 <img src="assets/project-1.jpg" alt="Project Image" class="project-image">
                 <div class="project-content">
-                    <h3 class="project-title">Project Three</h3>
-                    <p class="project-description">电子商务平台的视觉重新设计，包括品牌标识、用户界面和整体用户体验的改进。该项目显著提高了转化率和用户满意度。</p>
+                    <h3 class="project-title">AR & VR</h3>
+                    <p class="project-description">Deliver an immersive multi-sensory experience through innovative audio-visual design, elevating user engagement and satisfaction.</p>
                 </div>
             </div>
         </div>

@@ -7,6 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Livvic:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap" rel="stylesheet">
     <style>
         /* 继承主站样式 */
+        :root {
+            --text-color: #f8f9fa;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -28,13 +32,14 @@
             display: flex;
             gap: 3rem;
         }
+
         .nav-link {
             font-family: "Livvic", sans-serif;
             font-weight: 400;
             font-style: normal;
-            color: #fff;
+            color: var(--text-color);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             position: relative;
             opacity: 0.7;
             transition: all 0.4s ease;
@@ -50,12 +55,13 @@
             left: 0;
             width: 0;
             height: 2px;
-            background-color: #fff;
+            background-color: var(--text-color);
             transition: width 0.4s ease;
         }
         .nav-link:hover::after {
             width: 100%;
         }
+        
         #webgl {
             position: fixed;
             background-color: #0101010a;
@@ -84,12 +90,12 @@
         }
 
         .about-title {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 200;
             margin-bottom: 1rem;
         }
         .about-content {
-            font-size: 1.5rem;
+            font-size: 2.0rem;
             font-weight: 200;
             line-height: 1.8;
             opacity: 0.9;

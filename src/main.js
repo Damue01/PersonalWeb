@@ -47,7 +47,7 @@ class CameraManager {
 
     setupCamera(width, height) {
         const fov = (180 * (2 * Math.atan(height / 2 / this.perspective))) / Math.PI;
-        const camera = new THREE.PerspectiveCamera(fov, width / height, 1, 1000);
+        const camera = new THREE.PerspectiveCamera(fov, width / height, 1, 15000);
         camera.position.set(0, 0, this.perspective);
         return camera;
     }
@@ -73,7 +73,7 @@ class LineManager {
         ];
         this.sharedMaterial = new THREE.LineBasicMaterial({
             transparent: true,
-            opacity: 0.5,
+            opacity: 0.8,
             linewidth: 1
         });
         scene.add(this.lines);
@@ -83,7 +83,7 @@ class LineManager {
     generateLinePoints(index) {
         const points = [];
         const segmentCount = 100;
-        const radius = 120 + Math.random() * 500;
+        const radius = 1500 + Math.random() * 2000;
 
         for (let j = 0; j <= segmentCount; j++) {
             const theta = (j / segmentCount) * Math.PI * 2;
@@ -113,7 +113,7 @@ class LineManager {
             gsap.to(line.rotation, {
                 x: Math.PI * 2,
                 y: Math.PI * 2,
-                duration: 15 + i * 3,
+                duration: 55 + i * 3,
                 repeat: -1,
                 ease: 'none'
             });
@@ -121,9 +121,9 @@ class LineManager {
     }
 
     animateLineLifecycle(line) {
-        const lifecycleDuration = 5 + Math.random() * 5;
+        const lifecycleDuration = 5 + Math.random() * 1;
         gsap.to(line.material, {
-            opacity: 0.7,
+            opacity: 1,
             duration: 2.5,
             ease: 'power2.out',
             onComplete: () => {
@@ -155,7 +155,7 @@ class Experience {
         this.setupRenderer();
         this.setupLights();
         this.setupBackground();
-        this.lineManager = new LineManager(this.scene, 10);
+        this.lineManager = new LineManager(this.scene, 3);
         this.setupEventListeners();
         this.setupAnimations();
         this.render();
@@ -185,11 +185,11 @@ class Experience {
     // #ff9a9e, #fad0c4, #fad0c4, #a18cd1, #fbc2eb
     // #cdb4db, #ffc8dd, #ffafcc, #bde0fe, #a2d2ff
     setupBackground() {
-        document.body.style.background = 'linear-gradient(45deg, #cdb4db, #ffc8dd, #ffafcc, #bde0fe, #a2d2ff)';
+        document.body.style.background = 'linear-gradient(45deg, #f2f7ff, #c9dcff, #b2c9ff, #be99ff)';
         document.body.style.backgroundSize = '400% 400%';
         gsap.to(document.body, {
             backgroundPosition: '100% 100%',
-            duration: 20,
+            duration: 15,
             repeat: -1,
             yoyo: true,
             ease: 'sine.inOut'
@@ -210,7 +210,6 @@ class Experience {
                 stagger: 0.5,
                 onStart: function () { this.targets()[0].material.opacity = 0; },
                 onComplete: (line) => this.lineManager.animateLineLifecycle(line),
-                duration: 0
             });
         }
     }
